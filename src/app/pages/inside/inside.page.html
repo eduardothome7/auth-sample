@@ -1,0 +1,14 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>inside 2</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+  <p>{{ auth.getEmail() }}</p>
+
+  <ion-item (click)="logout()" *ngIf="auth.authenticated">
+    <ion-icon name="log-out" item-left></ion-icon>
+    Log out
+  </ion-item>
+</ion-content>
