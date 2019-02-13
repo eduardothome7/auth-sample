@@ -17,10 +17,15 @@ export class AuthService {
   }
 
   getEmail() {
+    console.log(this.user);
     return this.user && this.user.email;
   }
 
   get authenticated(): boolean {
+    return this.user !== null;
+  }
+
+  isAuthenticated() {
     return this.user !== null;
   }
 
