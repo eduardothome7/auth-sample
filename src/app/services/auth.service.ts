@@ -26,7 +26,7 @@ export class AuthService {
   }
 
   isAuthenticated() {
-    return this.user !== null;
+    return this.user;
   }
 
   signInWithEmail(credentials){

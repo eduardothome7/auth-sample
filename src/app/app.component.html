@@ -7,6 +7,9 @@
         </ion-toolbar>
       </ion-header>
       <ion-content>
+        <ion-item>
+          {{ auth.getEmail() }}
+        </ion-item>
         <ion-list>
           <ion-menu-toggle auto-hide="false" *ngFor="let p of appPages">
             <ion-item [routerDirection]="'root'" [routerLink]="[p.url]">
@@ -17,6 +20,10 @@
             </ion-item>
           </ion-menu-toggle>
         </ion-list>
+        <ion-item (click)="logout()" *ngIf="auth.authenticated">
+          <ion-icon name="log-out" item-left></ion-icon>
+          Sair
+        </ion-item>
       </ion-content>
     </ion-menu>
     <ion-router-outlet main></ion-router-outlet>

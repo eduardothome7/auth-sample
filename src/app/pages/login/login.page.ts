@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { NavController } from '@ionic/angular';
+import { NavController, MenuController } from '@ionic/angular';
 import { AuthService } from '../../services/auth.service';
 import { InsidePage } from '../inside/inside.page';
 import { Router } from '@angular/router';
@@ -19,9 +19,12 @@ export class LoginPage implements OnInit {
   constructor(private navController: NavController, 
               private formBuilder: FormBuilder,
               private auth: AuthService,
+              private menuCtrl: MenuController,
               private router: Router) { }
 
   ngOnInit() {
+    this.menuCtrl.enable(false);
+    
     this.credentialsForm = this.formBuilder.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]]
