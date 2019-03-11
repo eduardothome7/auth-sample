@@ -16,6 +16,13 @@ export class AuthService {
     });
   }
 
+  resetPassword(email: string) {
+    var auth = firebase.auth();
+    return auth.sendPasswordResetEmail(email)
+      .then(() => console.log("email sent"))
+      .catch((error) => console.log(error))
+  }
+  
   getEmail() {
     console.log(this.user);
     return this.user && this.user.email;

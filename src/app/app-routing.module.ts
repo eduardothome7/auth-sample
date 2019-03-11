@@ -17,7 +17,9 @@ const routes: Routes = [
     loadChildren: './list/list.module#ListPageModule'
   },
   { path: 'login', loadChildren: './pages/login/login.module#LoginPageModule' },
-  { path: 'inside', loadChildren: './pages/inside/inside.module#InsidePageModule', canActivate: [AuthGuardService] }
+  { path: 'inside', loadChildren: './pages/inside/inside.module#InsidePageModule', canActivate: [AuthGuardService] },
+  { path: 'resetpassword', loadChildren: './pages/login/resetpassword/resetpassword.module#ResetpasswordPageModule' }
+
 ];
 
 @NgModule({

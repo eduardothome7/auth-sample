@@ -5,7 +5,6 @@ import { AuthService } from '../../services/auth.service';
 import { InsidePage } from '../inside/inside.page';
 import { Router } from '@angular/router';
 
-
 @Component({
   selector: 'app-login',
   templateUrl: './login.page.html',
@@ -58,4 +57,8 @@ export class LoginPage implements OnInit {
 		);
   }
 
+  resetPassword() {
+    this.router.navigate(['resetpassword'])
+  }
+  
 }
