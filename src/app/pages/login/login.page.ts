@@ -14,6 +14,7 @@ export class LoginPage implements OnInit {
 
   credentialsForm: FormGroup;
   loginError: string;
+  splash = true;
 
   constructor(private navController: NavController, 
               private formBuilder: FormBuilder,
@@ -28,6 +29,10 @@ export class LoginPage implements OnInit {
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]]
     });
+
+    // this.splash = false;
+    setTimeout(() => { this.splash = false }, 6000)
+
   }
 
   onSubmit(){

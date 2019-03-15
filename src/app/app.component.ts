@@ -25,7 +25,7 @@ export class AppComponent {
       icon: 'list'
     }
   ];
-
+  
   constructor(
     private platform: Platform,
     private splashScreen: SplashScreen,
@@ -38,9 +38,9 @@ export class AppComponent {
   }
 
   initializeApp() {
+    
     this.platform.ready().then(() => {
       this.statusBar.styleDefault();
-      this.splashScreen.hide();
     });
 
     this.auth.fAuth.authState
@@ -62,5 +62,9 @@ export class AppComponent {
     this.menuCtrl.enable(false);
     this.auth.signOut();
     this.router.navigate(['login']);
+  }
+
+  getAuth(){
+    return this.auth
   }
 }
