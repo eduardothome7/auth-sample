@@ -4,7 +4,8 @@ import { AppComponent } from 'src/app/app.component';
 import { Router } from '@angular/router';
 import { MenuController } from '@ionic/angular';
 import * as firebase from 'firebase';
-
+import { snapshotToArray } from '../../helpers/util';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-inside',
@@ -13,32 +14,41 @@ import * as firebase from 'firebase';
 })
 export class InsidePage implements OnInit {
 
-  itens = [];
+  posts : any[];
+  load : boolean = false;
   ref = firebase.database().ref('posts/');
+  query = firebase.database().ref('posts').orderByChild("uid").equalTo(this.auth.getAuthToken());
+  form: FormGroup;
 
-  constructor(public auth: AuthService, private router: Router, private menuCtrl: MenuController) { 
-    this.ref.on('value', resp =>{
-      this.itens = this.snapshotToArray(resp);
-    });
-    console.log(this.itens);
+  constructor(public auth: AuthService, private router: Router, private formBuilder: FormBuilder, private menuCtrl: MenuController) { 
+    this.fetchAll();
   }
   
   ngOnInit() {
     this.menuCtrl.enable(true);
+
+    this.form = this.formBuilder.group({
+      title: ['', [Validators.required ]],
+      description: ['', [Validators.required ]]
+    });
   }
 
-  snapshotToArray(snapshot) {
-    var returnArr = [];
-
-    snapshot.forEach(function(childSnapshot) {
-        var item = childSnapshot.val();
-        item.key = childSnapshot.key;
-
-        returnArr.push(item);
+  fetchAll(){
+    this.query.on('value', resp =>{
+      this.posts = snapshotToArray(resp);
     });
+    this.load = true;  
+  }
 
-    return returnArr;
-  };
+  onSubmit(){
+    let data = this.form.value;
+		let post = {
+			title: data.title,
+      description: data.description,
+      uid: this.auth.getAuthToken()
+		};
+    this.ref.push(post);
+  }
 
   logout() {
     this.auth.signOut();

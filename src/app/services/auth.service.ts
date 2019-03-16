@@ -24,9 +24,12 @@ export class AuthService {
   }
   
   getEmail() {
-    console.log(this.user);
     return this.user && this.user.email;
   }
+
+  getAuthToken(){
+    return this.user && this.user.uid;
+  } 
 
   get authenticated(): boolean {
     return this.user !== null;

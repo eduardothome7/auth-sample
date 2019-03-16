@@ -1,4 +1,4 @@
-<ion-header>
+<ion-header no-border>
   <ion-toolbar>
     <ion-buttons slot="start">
       <ion-menu-toggle>
@@ -11,6 +11,32 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content padding>
-  
+<ion-content>
+  <p class="message grey center" *ngIf="!posts">Nenhum post cadastrado</p>
+  <ion-list *ngIf="posts">
+    <ion-item *ngFor="let post of posts">
+      <ion-label>{{ post.title }}</ion-label>
+      <ion-label text-wrap>
+        {{ post.description }}
+      </ion-label>
+    </ion-item>
+  </ion-list>
+
+  <form [formGroup]="form" *ngIf="load" (ngSubmit)="onSubmit()">
+    <div class="form-error"> {{ loginError }} </div>
+    
+    <ion-item>
+      <ion-label position="floating">Título</ion-label>
+      <ion-input type="text" formControlName="title"></ion-input>
+    </ion-item>
+    
+    <ion-item>
+      <ion-label position="floating">Conteúdo</ion-label>
+      <ion-input type="textarea" formControlName="description"></ion-input>
+    </ion-item>
+
+    <ion-button expand="full" type="submit" [disabled]="!form.valid">Adicionar</ion-button>
+
+  </form>
+
 </ion-content>
