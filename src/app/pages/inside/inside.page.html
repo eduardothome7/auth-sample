@@ -11,7 +11,8 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content padding>
+  {{ auth.uid }}
   <p class="message grey center" *ngIf="!posts">Nenhum post cadastrado</p>
   <ion-list *ngIf="posts">
     <ion-item *ngFor="let post of posts">
@@ -21,7 +22,8 @@
       </ion-label>
     </ion-item>
   </ion-list>
-
+  
+  
   <form [formGroup]="form" *ngIf="load" (ngSubmit)="onSubmit()">
     <div class="form-error"> {{ loginError }} </div>
     

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from 'src/app/services/auth.service';
 import { AppComponent } from 'src/app/app.component';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { MenuController } from '@ionic/angular';
 import * as firebase from 'firebase';
 import { snapshotToArray } from '../../helpers/util';
@@ -15,26 +15,35 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 export class InsidePage implements OnInit {
 
   posts : any[];
+  private user :any;
   load : boolean = false;
-  ref = firebase.database().ref('posts/');
-  query = firebase.database().ref('posts').orderByChild("uid").equalTo(this.auth.getAuthToken());
+  private ref :any;
   form: FormGroup;
 
-  constructor(public auth: AuthService, private router: Router, private formBuilder: FormBuilder, private menuCtrl: MenuController) { 
-    this.fetchAll();
+  constructor(public auth: AuthService, 
+              private router: Router, 
+              private currentRouter: ActivatedRoute,
+              private formBuilder: FormBuilder, 
+              private menuCtrl: MenuController) { 
   }
   
   ngOnInit() {
+    
     this.menuCtrl.enable(true);
-
+    
+    this.user = this.currentRouter.snapshot.paramMap.get("token");
+    this.ref  = firebase.database().ref(`users/`+this.user+`/posts/`);  
+    
+    this.fetchAll();
+    
     this.form = this.formBuilder.group({
       title: ['', [Validators.required ]],
       description: ['', [Validators.required ]]
     });
   }
-
+  
   fetchAll(){
-    this.query.on('value', resp =>{
+    this.ref.on('value', resp =>{
       this.posts = snapshotToArray(resp);
     });
     this.load = true;  
@@ -44,8 +53,7 @@ export class InsidePage implements OnInit {
     let data = this.form.value;
 		let post = {
 			title: data.title,
-      description: data.description,
-      uid: this.auth.getAuthToken()
+      description: data.description
 		};
     this.ref.push(post);
   }

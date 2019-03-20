@@ -47,7 +47,7 @@ export class AppComponent {
       .subscribe(
         user => {
           if (user) {
-            this.router.navigate(['inside']);
+            this.router.navigate(['inside', { token: this.auth.uid }]);
           } else {
             this.router.navigate(['login']);
           }

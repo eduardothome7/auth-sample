@@ -9,10 +9,12 @@ import AuthProvider = firebase.auth.AuthProvider;
 export class AuthService {
 
   private user: firebase.User;
+  public uid;
 
   constructor(public fAuth: AngularFireAuth) { 
     fAuth.authState.subscribe(user => {
       this.user = user;
+      this.uid = user.uid;
     });
   }
 
