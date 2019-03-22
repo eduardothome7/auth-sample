@@ -7,6 +7,7 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { Router } from '@angular/router';
 import { LoginPage } from './pages/login/login.page';
 import { AuthService } from './services/auth.service';
+import * as firebase from 'firebase';
 
 @Component({
   selector: 'app-root',
@@ -33,8 +34,25 @@ export class AppComponent {
     private router: Router,
     private auth: AuthService,
     private menuCtrl: MenuController
-  ) {
-    this.initializeApp();
+    ) {
+      
+      this.initializeApp();
+    var messaging = firebase.messaging();
+
+    messaging.usePublicVapidKey("BPJ3p7WHW3POnqTy5QyWzzVyto46MDSlK9_SDwVkwE_hJuAP1GbFuRX9UthmeTj61iRXdvqBsTEgs9N5G9VcfYY");
+    
+    messaging.requestPermission()
+    .then(function() {
+      return this.messaging.getToken();
+    })
+    .catch(function(err) {
+      console.log('Unable to get permission to notify.', err);
+    });
+    
+    messaging.onMessage(function(payload){
+      console.log('payload:'+payload);
+    });
+    
   }
 
   initializeApp() {
